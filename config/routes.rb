@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       post :favorite
     end
   end
+  resources :favorites, only: [:index, :destroy]
   get "dashboard", to: "dashboard#show"
 
   get "up" => "rails/health#show", as: :rails_health_check

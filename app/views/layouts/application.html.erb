@@ -30,6 +30,7 @@
         <%= link_to "🍽️ What's for Dinner?", root_path, class: "text-xl font-bold text-orange-600" %>
         <div class="flex gap-4 items-center text-sm">
           <% if user_signed_in? %>
+            <%= link_to "My Favorites", favorites_path, class: "text-gray-600 hover:text-orange-600" %>
             <%= link_to "My Profile", edit_profile_path, class: "text-gray-600 hover:text-orange-600" %>
             <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-gray-600 hover:text-orange-600" %>
           <% else %>

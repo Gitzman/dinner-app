@@ -1,13 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
   user: one
-  flow_type: MyString
-  user_input: MyText
-  suggestions: 
+  flow_type: quick
+  user_input: pasta night
+  suggestions: '[{"name":"Spaghetti Carbonara","description":"Classic Roman pasta","estimated_time":"25 min","cookware_used":["pot","pan"],"ingredients":["spaghetti","eggs","parmesan","pancetta"],"instructions":"Cook pasta. Fry pancetta. Mix eggs and cheese. Combine.","kid_contribution":"Kids can mix the eggs and cheese"}]'
 
 two:
   user: two
-  flow_type: MyString
-  user_input: MyText
-  suggestions: 
+  flow_type: surprise
+  user_input:
+  suggestions: '[{"name":"Tacos","description":"Easy weeknight tacos","estimated_time":"20 min","cookware_used":["skillet"],"ingredients":["ground beef","tortillas","lettuce","cheese"],"instructions":"Brown beef. Warm tortillas. Assemble.","kid_contribution":"Kids can add toppings"}]'
