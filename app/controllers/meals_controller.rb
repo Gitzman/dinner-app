@@ -38,5 +38,19 @@ class MealsController < ApplicationController
   def show
     @meal = current_user.meal_suggestions.find(params[:id])
     @suggestions = JSON.parse(@meal.suggestions, symbolize_names: true)
+    @is_favorited = current_user.favorites.exists?(meal_suggestion: @meal)
+  end
+
+  def favorite
+    @meal = current_user.meal_suggestions.find(params[:id])
+    existing = current_user.favorites.find_by(meal_suggestion: @meal)
+
+    if existing
+      existing.destroy
+      render json: { favorited: false }
+    else
+      current_user.favorites.create!(meal_suggestion: @meal)
+      render json: { favorited: true }
+    end
   end
 end

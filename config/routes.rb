@@ -6,7 +6,11 @@ Rails.application.routes.draw do
     passwords: "users/passwords"
   }
   resource :profile, only: [:edit, :update]
-  resources :meals, only: [:index, :new, :create, :show]
+  resources :meals, only: [:index, :new, :create, :show] do
+    member do
+      post :favorite
+    end
+  end
   get "dashboard", to: "dashboard#show"
 
   get "up" => "rails/health#show", as: :rails_health_check
