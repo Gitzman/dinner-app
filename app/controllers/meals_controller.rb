@@ -38,19 +38,21 @@ class MealsController < ApplicationController
   def show
     @meal = current_user.meal_suggestions.find(params[:id])
     @suggestions = JSON.parse(@meal.suggestions, symbolize_names: true)
-    @is_favorited = current_user.favorites.exists?(meal_suggestion: @meal)
+    @favorited_indices = current_user.favorites.where(meal_suggestion: @meal).pluck(:suggestion_index).to_set
   end
 
   def favorite
     @meal = current_user.meal_suggestions.find(params[:id])
-    existing = current_user.favorites.find_by(meal_suggestion: @meal)
+    suggestion_index = params[:suggestion_index].to_i
+
+    existing = current_user.favorites.find_by(meal_suggestion: @meal, suggestion_index: suggestion_index)
 
     if existing
-      existing.destroy
-      render json: { favorited: false }
+      existing.destroy!
+      head :ok
     else
-      current_user.favorites.create!(meal_suggestion: @meal)
-      render json: { favorited: true }
+      current_user.favorites.create!(meal_suggestion: @meal, suggestion_index: suggestion_index)
+      head :created
     end
   end
 end
