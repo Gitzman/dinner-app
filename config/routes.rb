@@ -1,0 +1,13 @@
+Rails.application.routes.draw do
+  root "home#index"
+  devise_for :users, controllers: {
+    sessions: "users/sessions",
+    registrations: "users/registrations",
+    passwords: "users/passwords"
+  }
+  resource :profile, only: [:edit, :update]
+  resources :meals, only: [:index, :new, :create, :show]
+  get "dashboard", to: "dashboard#show"
+
+  get "up" => "rails/health#show", as: :rails_health_check
+end

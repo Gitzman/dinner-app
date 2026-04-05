@@ -1,0 +1,83 @@
+<h1 class="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="grid grid-cols-3 gap-4 mb-10">
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <p class="text-4xl font-bold text-orange-500"><%= @total_users %></p>
+    <p class="text-sm text-gray-500 mt-1">Total Users</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <p class="text-4xl font-bold text-orange-500"><%= @profiles_completed %></p>
+    <p class="text-sm text-gray-500 mt-1">Profiles Completed</p>
+  </div>
+  <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+    <p class="text-4xl font-bold text-orange-500"><%= @total_suggestions %></p>
+    <p class="text-sm text-gray-500 mt-1">Meal Suggestions</p>
+  </div>
+</div>
+
+<!-- Flow Type Breakdown -->
+<h2 class="text-lg font-semibold text-gray-700 mb-3">Suggestions by Flow Type</h2>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-10">
+  <div class="space-y-3">
+    <% max_count = @by_flow_type.values.max || 1 %>
+    <% flow_labels = { "pantry" => "Use What You Have", "ingredient" => "Hero Ingredient", "cuisine" => "Mood", "random" => "Surprise Me" } %>
+    <% @by_flow_type.sort_by { |_, v| -v }.each do |flow, count| %>
+      <div>
+        <div class="flex justify-between text-sm mb-1">
+          <span class="font-medium text-gray-700"><%= flow_labels[flow] || flow.capitalize %></span>
+          <span class="text-gray-500"><%= count %></span>
+        </div>
+        <div class="w-full bg-gray-100 rounded-full h-3">
+          <div class="bg-orange-400 h-3 rounded-full" style="width: <%= (count.to_f / max_count * 100).round %>%"></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Per-User Breakdown -->
+<h2 class="text-lg font-semibold text-gray-700 mb-3">Suggestions by User</h2>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 mb-10 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-left text-gray-500">
+      <tr>
+        <th class="px-6 py-3 font-medium">User</th>
+        <th class="px-6 py-3 font-medium text-right">Suggestions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @by_user.each do |name, count| %>
+        <tr>
+          <td class="px-6 py-3 text-gray-700"><%= name %></td>
+          <td class="px-6 py-3 text-right text-gray-700 font-medium"><%= count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Recent Activity -->
+<h2 class="text-lg font-semibold text-gray-700 mb-3">Recent Activity</h2>
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-left text-gray-500">
+      <tr>
+        <th class="px-6 py-3 font-medium">User</th>
+        <th class="px-6 py-3 font-medium">Flow</th>
+        <th class="px-6 py-3 font-medium">Input</th>
+        <th class="px-6 py-3 font-medium text-right">When</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      <% @recent_suggestions.each do |meal| %>
+        <tr>
+          <td class="px-6 py-3 text-gray-700"><%= meal.user_name %></td>
+          <td class="px-6 py-3 text-gray-700"><%= meal.flow_type.capitalize %></td>
+          <td class="px-6 py-3 text-gray-500"><%= meal.user_input.present? ? meal.user_input.truncate(40) : "—" %></td>
+          <td class="px-6 py-3 text-right text-gray-400"><%= time_ago_in_words(meal.created_at) %> ago</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

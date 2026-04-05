@@ -1,0 +1,62 @@
+<% active_classes = "bg-orange-500 rounded-2xl p-6 shadow-sm transition" %>
+<% inactive_classes = "bg-white rounded-2xl p-6 shadow-sm border border-orange-100 hover:border-orange-400 hover:shadow-md transition" %>
+
+<h1 class="text-3xl font-bold text-gray-800 mb-2">Hi <%= current_user.profile.name %>! 👋</h1>
+<p class="text-gray-500 mb-8">What kind of help do you need tonight?</p>
+
+<div class="grid grid-cols-2 gap-4 mb-12">
+  <%= link_to new_meal_path(flow: "pantry"), class: "group #{@last_flow == 'pantry' ? active_classes : inactive_classes}" do %>
+    <div class="text-4xl mb-3">🥕</div>
+    <h2 class="text-lg font-bold <%= @last_flow == 'pantry' ? 'text-white' : 'text-gray-800 group-hover:text-orange-600' %>">Use What You Have</h2>
+    <p class="text-sm mt-1 <%= @last_flow == 'pantry' ? 'text-orange-100' : 'text-gray-500' %>">Tell us what's in your fridge and pantry</p>
+  <% end %>
+
+  <%= link_to new_meal_path(flow: "ingredient"), class: "group #{@last_flow == 'ingredient' ? active_classes : inactive_classes}" do %>
+    <div class="text-4xl mb-3">⭐</div>
+    <h2 class="text-lg font-bold <%= @last_flow == 'ingredient' ? 'text-white' : 'text-gray-800 group-hover:text-orange-600' %>">Hero Ingredient</h2>
+    <p class="text-sm mt-1 <%= @last_flow == 'ingredient' ? 'text-orange-100' : 'text-gray-500' %>">Build the meal around one key ingredient</p>
+  <% end %>
+
+  <%= link_to new_meal_path(flow: "cuisine"), class: "group #{@last_flow == 'cuisine' ? active_classes : inactive_classes}" do %>
+    <div class="text-4xl mb-3">🌍</div>
+    <h2 class="text-lg font-bold <%= @last_flow == 'cuisine' ? 'text-white' : 'text-gray-800 group-hover:text-orange-600' %>">I'm in the Mood For...</h2>
+    <p class="text-sm mt-1 <%= @last_flow == 'cuisine' ? 'text-orange-100' : 'text-gray-500' %>">Pick a cuisine or vibe</p>
+  <% end %>
+
+  <div data-controller="loading">
+    <%= form_with url: meals_path, method: :post, data: { loading_target: "form", action: "submit->loading#submit" } do |f| %>
+      <%= f.hidden_field :flow_type, value: "random" %>
+      <%= f.hidden_field :user_input, value: "" %>
+      <button type="submit" class="group w-full text-left <%= @last_flow == 'random' || @last_flow.nil? ? active_classes : inactive_classes %>">
+        <div class="text-4xl mb-3">🎲</div>
+        <h2 class="text-lg font-bold <%= @last_flow == 'random' || @last_flow.nil? ? 'text-white' : 'text-gray-800 group-hover:text-orange-600' %>">Surprise Me</h2>
+        <p class="text-sm mt-1 <%= @last_flow == 'random' || @last_flow.nil? ? 'text-orange-100' : 'text-gray-500' %>">Let us pick 3 great ideas for you</p>
+      </button>
+    <% end %>
+
+    <!-- Loading overlay -->
+    <div data-loading-target="overlay" class="hidden fixed inset-0 bg-orange-50/90 z-50 flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center gap-6">
+        <div class="w-16 h-16 border-4 border-orange-200 border-t-orange-500 rounded-full animate-spin"></div>
+        <p data-loading-target="message" class="text-xl font-semibold text-gray-700 transition-opacity duration-300"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @recent.any? %>
+  <h2 class="text-lg font-semibold text-gray-700 mb-3">Recent suggestions</h2>
+  <div class="space-y-2">
+    <% @recent.each do |meal| %>
+      <%= link_to meal_path(meal), class: "flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-gray-100 hover:border-orange-300 transition" do %>
+        <div>
+          <span class="text-sm font-medium text-gray-700"><%= meal.flow_type.capitalize %></span>
+          <% if meal.user_input.present? %>
+            <span class="text-sm text-gray-400"> — <%= meal.user_input.truncate(40) %></span>
+          <% end %>
+        </div>
+        <span class="text-xs text-gray-400"><%= time_ago_in_words(meal.created_at) %> ago</span>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,89 @@
+<% content_for(:skip_nav, true) %>
+
+<div class="min-h-screen bg-orange-50 -mx-4 -mt-8 px-4">
+  <!-- Minimal top bar -->
+  <div class="max-w-5xl mx-auto flex items-center justify-between py-5">
+    <span class="text-xl font-bold text-orange-600">🍽️ What's for Dinner?</span>
+    <%= link_to "Sign in", new_user_session_path, class: "text-sm text-gray-600 hover:text-orange-600 font-medium" %>
+  </div>
+
+  <!-- Hero -->
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 py-12 md:py-20">
+    <!-- Left: Copy -->
+    <div class="flex-1 text-center md:text-left">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-5">
+        Dinner, figured out.<br>
+        <span class="text-orange-500">Every single night.</span>
+      </h1>
+      <p class="text-lg text-gray-600 mb-8 max-w-md mx-auto md:mx-0">
+        Tell us what's in your kitchen and who you're feeding. Get 3 personalized meal ideas in seconds — no scrolling through endless recipes.
+      </p>
+      <%= link_to new_user_registration_path, class: "inline-block bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-orange-600 hover:shadow-lg transition shadow-md" do %>
+        Start cooking smarter &rarr;
+      <% end %>
+      <p class="text-sm text-gray-400 mt-4">Free to use. No credit card needed.</p>
+    </div>
+
+    <!-- Right: Illustration -->
+    <div class="flex-1 flex justify-center">
+      <div class="relative">
+        <!-- Happy scene card -->
+        <div class="bg-white rounded-3xl shadow-xl p-8 max-w-sm">
+          <div class="text-7xl text-center mb-4">👩‍🍳</div>
+          <div class="space-y-3">
+            <div class="bg-orange-50 rounded-xl p-4 border border-orange-100">
+              <p class="text-sm font-semibold text-orange-600 mb-1">Tonight's idea</p>
+              <p class="font-bold text-gray-800">One-Pan Lemon Herb Chicken</p>
+              <p class="text-sm text-gray-500 mt-1">30 min · Uses what you already have</p>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 px-1">
+              <span class="text-green-500 text-lg">✓</span>
+              Kid-friendly with a job for little helpers
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 px-1">
+              <span class="text-green-500 text-lg">✓</span>
+              Matches your cookware &amp; taste
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 px-1">
+              <span class="text-green-500 text-lg">✓</span>
+              Ready before the kids melt down
+            </div>
+          </div>
+        </div>
+        <!-- Floating accent badges -->
+        <div class="absolute -top-3 -right-3 bg-orange-400 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md rotate-6">
+          AI-powered
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="max-w-3xl mx-auto py-12 border-t border-orange-100">
+    <h2 class="text-center text-2xl font-bold text-gray-800 mb-10">How it works</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+      <div>
+        <div class="text-4xl mb-3">📝</div>
+        <h3 class="font-bold text-gray-800 mb-1">Tell us about you</h3>
+        <p class="text-sm text-gray-500">Your family, your cookware, your taste. Takes 2 minutes.</p>
+      </div>
+      <div>
+        <div class="text-4xl mb-3">🥕</div>
+        <h3 class="font-bold text-gray-800 mb-1">Pick a flow</h3>
+        <p class="text-sm text-gray-500">Use what you have, pick a hero ingredient, choose a mood, or just say surprise me.</p>
+      </div>
+      <div>
+        <div class="text-4xl mb-3">🍽️</div>
+        <h3 class="font-bold text-gray-800 mb-1">Get 3 ideas, instantly</h3>
+        <p class="text-sm text-gray-500">Personalized meals with ingredients, steps, and time estimates.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="text-center py-12">
+    <%= link_to new_user_registration_path, class: "inline-block bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-orange-600 hover:shadow-lg transition shadow-md" do %>
+      Get started for free &rarr;
+    <% end %>
+  </div>
+</div>
