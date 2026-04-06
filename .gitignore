@@ -1,0 +1,43 @@
+# Environment
+.env
+.env.*
+
+# SQLite databases
+storage/*.sqlite3
+storage/*.sqlite3-*
+db/*.sqlite3
+db/*.sqlite3-*
+
+# Logs
+log/*
+!log/.keep
+
+# Temp files
+tmp/
+!tmp/.keep
+!tmp/pids/
+!tmp/storage/
+
+# Bootsnap cache
+tmp/cache/bootsnap/
+
+# Local secrets
+tmp/local_secret.txt
+config/master.key
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+*.swp
+*~
+
+# Beads (local state)
+.beads/embeddeddolt/
+.beads/interactions.jsonl
+.beads/push-state.json
+.beads/last-touched
+
+# Playwright screenshots
+.playwright-mcp/
