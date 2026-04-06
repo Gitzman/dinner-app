@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :meals, only: [:index, :new, :create, :show] do
     member do
       post :favorite
+      post :rate, controller: :ratings, action: :create
+      get :ratings, controller: :ratings, action: :index
     end
   end
   resources :favorites, only: [:index, :destroy]

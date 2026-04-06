@@ -1,0 +1,7 @@
+one:
+  user: one
+  meal_suggestion: one
+  suggestion_index: 0
+  recipe_rating: 4
+  kid_tip_rating: 5
+  is_deleted: false
