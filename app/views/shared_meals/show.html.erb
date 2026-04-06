@@ -3,7 +3,8 @@
   <meta property="og:title" content="<%= featured&.dig(:name) || "Dinner Ideas" %>">
   <meta property="og:description" content="<%= featured&.dig(:description) || "Check out these dinner suggestions!" %>">
   <meta property="og:image" content="<%= "#{request.base_url}/icon.png" %>">
-  <meta property="og:url" content="<%= shared_meal_url(@meal, si: @suggestion_offset) %>">
+  <% featured_slug = featured&.dig(:name).to_s.downcase.gsub(/[^a-z0-9]+/, "-").gsub(/\A-|-\z/, "") %>
+  <meta property="og:url" content="<%= shared_meal_url(@meal, slug: featured_slug) %>">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= featured&.dig(:name) || "Dinner Ideas" %>">
