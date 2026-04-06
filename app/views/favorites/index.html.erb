@@ -5,9 +5,10 @@
 
 <% if @favorites.any? %>
   <div class="space-y-6">
-    <% @favorites.each do |meal| %>
-      <% suggestions = meal.suggestions.map(&:deep_symbolize_keys) %>
-      <% suggestions.each_with_index do |recipe, i| %>
+    <% @favorites.each do |fav| %>
+      <% meal = fav.meal_suggestion %>
+      <% recipe = meal.suggestions[fav.suggestion_index]&.deep_symbolize_keys %>
+      <% next unless recipe %>
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-orange-100">
           <div class="flex items-start justify-between mb-3">
             <div>
@@ -19,7 +20,7 @@
             </div>
             <div class="flex items-center gap-3 ml-4">
               <span class="text-sm text-gray-400 whitespace-nowrap">⏱ <%= recipe[:estimated_time] %></span>
-              <%= button_to favorite_path(meal.favorites.find_by(user: current_user)),
+              <%= button_to favorite_path(fav),
                     method: :delete,
                     class: "text-red-500 hover:text-red-700 transition text-2xl",
                     title: "Remove from favorites" do %>
@@ -62,7 +63,6 @@
             </div>
           <% end %>
         </div>
-      <% end %>
     <% end %>
   </div>
 <% else %>

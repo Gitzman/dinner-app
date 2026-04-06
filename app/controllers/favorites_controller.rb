@@ -1,8 +1,8 @@
 class FavoritesController < ApplicationController
   def index
-    @favorites = current_user.favorite_meal_suggestions
-                              .includes(:favorites)
-                              .order("user_favorites.created_at DESC")
+    @favorites = current_user.favorites
+                              .includes(:meal_suggestion)
+                              .order(created_at: :desc)
   end
 
   def destroy
