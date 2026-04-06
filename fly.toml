@@ -21,6 +21,7 @@ console_command = '/rails/bin/rails console'
   destination = '/rails/storage'
 
 [http_service]
+  processes = ["app"]
   internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
@@ -44,3 +45,7 @@ console_command = '/rails/bin/rails console'
   cpu_kind = 'shared'
   cpus = 1
   memory_mb = 512
+
+[processes]
+  app = "./bin/rails server"
+
