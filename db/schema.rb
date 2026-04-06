@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_05_221745) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_05_223712) do
   create_table "meal_suggestions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "flow_type"
@@ -34,6 +34,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_221745) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "user_favorites", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "meal_suggestion_id", null: false
+    t.integer "suggestion_index", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["meal_suggestion_id"], name: "index_user_favorites_on_meal_suggestion_id"
+    t.index ["user_id", "meal_suggestion_id", "suggestion_index"], name: "idx_user_favorites_unique", unique: true
+    t.index ["user_id"], name: "index_user_favorites_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -44,16 +55,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_05_221745) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
-
-  create_table "user_favorites", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "meal_suggestion_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id", "meal_suggestion_id"], name: "index_user_favorites_on_user_id_and_meal_suggestion_id", unique: true
-    t.index ["user_id"], name: "index_user_favorites_on_user_id"
-    t.index ["meal_suggestion_id"], name: "index_user_favorites_on_meal_suggestion_id"
   end
 
   add_foreign_key "meal_suggestions", "users"

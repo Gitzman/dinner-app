@@ -27,7 +27,7 @@ class MealsController < ApplicationController
           instructions: s.instructions,
           kid_contribution: s.kid_contribution
         }
-      }.to_json
+      }
     )
 
     redirect_to meal_path(@meal)
@@ -37,7 +37,7 @@ class MealsController < ApplicationController
 
   def show
     @meal = current_user.meal_suggestions.find(params[:id])
-    @suggestions = JSON.parse(@meal.suggestions, symbolize_names: true)
+    @suggestions = @meal.suggestions.map(&:deep_symbolize_keys)
     @favorited_indices = current_user.favorites.where(meal_suggestion: @meal).pluck(:suggestion_index).to_set
   end
 

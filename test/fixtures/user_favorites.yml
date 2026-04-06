@@ -1,3 +1,4 @@
 one:
   user: one
   meal_suggestion: one
+  suggestion_index: 0

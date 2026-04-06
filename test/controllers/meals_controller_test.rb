@@ -9,43 +9,38 @@ class MealsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
   end
 
-  test "show sets is_favorited to true when meal is favorited" do
-    Favorite.create!(user: @user, meal_suggestion: @meal)
+  test "show renders suggestions with favorited meal" do
     get meal_path(@meal)
     assert_response :success
-    assert assigns(:is_favorited)
+    assert_select "h2", "Spaghetti Carbonara"
   end
 
-  test "show sets is_favorited to false when meal is not favorited" do
+  test "show renders when no favorites exist" do
     Favorite.where(user: @user, meal_suggestion: @meal).destroy_all
     get meal_path(@meal)
     assert_response :success
-    assert_not assigns(:is_favorited)
+    assert_select "h2", "Spaghetti Carbonara"
   end
 
-  test "favorite creates favorite and returns json when not yet favorited" do
+  test "favorite creates favorite when not yet favorited" do
     Favorite.where(user: @user, meal_suggestion: @meal).destroy_all
     assert_difference "Favorite.count", 1 do
-      post favorite_meal_path(@meal)
+      post favorite_meal_path(@meal, suggestion_index: 0)
     end
-    assert_response :success
-    json = JSON.parse(response.body)
-    assert_equal true, json["favorited"]
+    assert_response :created
   end
 
-  test "favorite removes favorite and returns json when already favorited" do
-    Favorite.find_or_create_by!(user: @user, meal_suggestion: @meal)
+  test "favorite removes favorite when already favorited" do
+    Favorite.find_or_create_by!(user: @user, meal_suggestion: @meal, suggestion_index: 0)
     assert_difference "Favorite.count", -1 do
-      post favorite_meal_path(@meal)
+      post favorite_meal_path(@meal, suggestion_index: 0)
     end
-    assert_response :success
-    json = JSON.parse(response.body)
-    assert_equal false, json["favorited"]
+    assert_response :ok
   end
 
   test "favorite requires authentication" do
     sign_out @user
-    post favorite_meal_path(@meal)
+    post favorite_meal_path(@meal, suggestion_index: 0)
     assert_response :redirect
   end
 end

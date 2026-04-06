@@ -37,7 +37,7 @@ class FavoritesControllerTest < ActionDispatch::IntegrationTest
 
   test "should not destroy another users favorite" do
     other_user = users(:two)
-    other_favorite = other_user.favorites.create!(meal_suggestion: meal_suggestions(:two))
+    other_favorite = other_user.favorites.create!(meal_suggestion: meal_suggestions(:two), suggestion_index: 1)
     assert_raises(ActiveRecord::RecordNotFound) do
       delete favorite_url(other_favorite)
     end
