@@ -1,3 +1,16 @@
+<% content_for :head do %>
+  <% first = @suggestions.first %>
+  <meta property="og:title" content="<%= first&.dig(:name) || "Dinner Ideas" %>">
+  <meta property="og:description" content="<%= first&.dig(:description) || "Check out these dinner suggestions!" %>">
+  <meta property="og:image" content="<%= "#{request.base_url}/icon.png" %>">
+  <meta property="og:url" content="<%= shared_meal_url(@meal, si: 0) %>">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= first&.dig(:name) || "Dinner Ideas" %>">
+  <meta name="twitter:description" content="<%= first&.dig(:description) || "Check out these dinner suggestions!" %>">
+  <meta name="twitter:image" content="<%= "#{request.base_url}/icon.png" %>">
+<% end %>
+
 <div class="mb-6">
   <h1 class="text-3xl font-bold text-gray-800">Check Out This Recipe</h1>
   <p class="text-sm text-gray-500 mt-1">
