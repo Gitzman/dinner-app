@@ -35,7 +35,7 @@
 <div class="space-y-6">
   <% @suggestions.each_with_index do |meal, i| %>
     <% actual_index = @suggestion_offset + i %>
-    <%= render "meals/recipe_card", meal: meal, index: actual_index, meal_id: @meal.id, favorited: @favorited_indices.include?(actual_index), signed_in: user_signed_in? %>
+    <%= render "meals/recipe_card", meal: meal, index: actual_index, meal_id: @meal.id, favorited: @favorited_indices.include?(actual_index), signed_in: user_signed_in?, stats: @interaction_stats[actual_index] %>
   <% end %>
 </div>
 

@@ -37,6 +37,19 @@
             </div>
           <% end %>
 
+          <% fav_stats = @interaction_stats[[fav.meal_suggestion_id, fav.suggestion_index]] %>
+          <% if fav_stats && fav_stats[:made_count] > 0 %>
+            <div class="flex flex-wrap items-center gap-3 mb-4 text-xs text-gray-500">
+              <span>Made <%= fav_stats[:made_count] %> <%= fav_stats[:made_count] == 1 ? "time" : "times" %></span>
+              <% if fav_stats[:avg_recipe_rating] %>
+                <span class="text-amber-500">★ <%= format("%.1f", fav_stats[:avg_recipe_rating]) %>/5</span>
+              <% end %>
+              <% if fav_stats[:avg_kid_tip_rating] && fav_stats[:avg_kid_tip_rating] > 3.5 %>
+                <span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200" title="Families found the kid tip helpful">👨‍🍳 Mini-Sous-Chef Approved</span>
+              <% end %>
+            </div>
+          <% end %>
+
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <h3 class="text-sm font-semibold text-gray-700 mb-2">Ingredients</h3>

@@ -39,6 +39,7 @@ class MealsController < ApplicationController
     @meal = current_user.meal_suggestions.find(params[:id])
     @suggestions = @meal.suggestions.map(&:deep_symbolize_keys)
     @favorited_indices = current_user.favorites.where(meal_suggestion: @meal).pluck(:suggestion_index).to_set
+    @interaction_stats = interaction_stats_for(@meal)
   end
 
   def favorite
@@ -54,5 +55,15 @@ class MealsController < ApplicationController
       current_user.favorites.create!(meal_suggestion: @meal, suggestion_index: suggestion_index)
       head :created
     end
+  end
+
+  private
+
+  def interaction_stats_for(meal)
+    RecipeInteraction
+      .where(meal_suggestion: meal, is_deleted: false)
+      .group(:suggestion_index)
+      .pluck(:suggestion_index, Arel.sql("COUNT(*)"), Arel.sql("AVG(recipe_rating)"), Arel.sql("AVG(kid_tip_rating)"))
+      .to_h { |si, count, avg_rating, avg_kid| [ si, { made_count: count, avg_recipe_rating: avg_rating&.to_f, avg_kid_tip_rating: avg_kid&.to_f } ] }
   end
 end

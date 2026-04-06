@@ -28,6 +28,6 @@
 
 <div class="space-y-6">
   <% @suggestions.each_with_index do |meal, i| %>
-    <%= render "meals/recipe_card", meal: meal, index: i, meal_id: @meal.id, favorited: @favorited_indices.include?(i), signed_in: true %>
+    <%= render "meals/recipe_card", meal: meal, index: i, meal_id: @meal.id, favorited: @favorited_indices.include?(i), signed_in: true, stats: @interaction_stats[i] %>
   <% end %>
 </div>

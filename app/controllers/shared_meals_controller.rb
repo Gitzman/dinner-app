@@ -28,6 +28,12 @@ class SharedMealsController < ApplicationController
     else
       @favorited_indices = Set.new
     end
+
+    @interaction_stats = RecipeInteraction
+      .where(meal_suggestion: @meal, is_deleted: false)
+      .group(:suggestion_index)
+      .pluck(:suggestion_index, Arel.sql("COUNT(*)"), Arel.sql("AVG(recipe_rating)"), Arel.sql("AVG(kid_tip_rating)"))
+      .to_h { |si, count, avg_rating, avg_kid| [ si, { made_count: count, avg_recipe_rating: avg_rating&.to_f, avg_kid_tip_rating: avg_kid&.to_f } ] }
   end
 
   private
