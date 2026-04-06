@@ -133,8 +133,12 @@
             <div data-rating-target="kidStars" class="flex gap-1"></div>
           </div>
 
-          <button data-action="click->rating#save"
-                  class="mt-6 w-full bg-orange-500 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-orange-600 transition cursor-pointer">
+          <p data-rating-target="hint" class="mt-4 text-xs text-orange-400 text-center hidden">Tap the stars to rate</p>
+          <button data-rating-target="saveButton"
+                  data-action="click->rating#save"
+                  class="mt-6 w-full bg-orange-500 text-white py-2.5 rounded-xl text-sm font-semibold transition
+                         <%= is_editing ? 'hover:bg-orange-600 cursor-pointer' : 'opacity-50 cursor-not-allowed' %>"
+                  <%= 'disabled' unless is_editing %>>
             Save
           </button>
         </div>

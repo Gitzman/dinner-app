@@ -10,12 +10,13 @@ export default class extends Controller {
     editing: Boolean
   }
 
-  static targets = ["modal", "backdrop", "recipeStars", "kidStars", "kidSection", "buttonText"]
+  static targets = ["modal", "backdrop", "recipeStars", "kidStars", "kidSection", "buttonText", "saveButton", "hint"]
 
   connect() {
     this.recipeRating = this.existingRecipeRatingValue || 0
     this.kidTipRating = this.existingKidTipRatingValue || 0
     this.updateButtonState()
+    this.updateSaveButton()
   }
 
   open() {
@@ -48,6 +49,7 @@ export default class extends Controller {
   selectRecipeStar(event) {
     this.recipeRating = parseInt(event.currentTarget.dataset.rating)
     this.renderStars(this.recipeStarsTarget, this.recipeRating, "recipe")
+    this.updateSaveButton()
   }
 
   selectKidStar(event) {
@@ -74,7 +76,11 @@ export default class extends Controller {
   }
 
   async save() {
-    if (this.recipeRating === 0) return
+    if (this.recipeRating === 0) {
+      this.hintTarget.classList.remove("hidden")
+      return
+    }
+    this.hintTarget.classList.add("hidden")
 
     const token = document.querySelector('meta[name="csrf-token"]').content
     const body = { suggestion_index: this.suggestionIndexValue, recipe_rating: this.recipeRating }
@@ -108,6 +114,19 @@ export default class extends Controller {
   updateButtonState() {
     if (this.editingValue) {
       this.buttonTextTarget.textContent = "Edit My Review"
+    }
+  }
+
+  updateSaveButton() {
+    const disabled = this.recipeRating === 0
+    this.saveButtonTarget.disabled = disabled
+    if (disabled) {
+      this.saveButtonTarget.classList.add("opacity-50", "cursor-not-allowed")
+      this.saveButtonTarget.classList.remove("hover:bg-orange-600", "cursor-pointer")
+    } else {
+      this.saveButtonTarget.classList.remove("opacity-50", "cursor-not-allowed")
+      this.saveButtonTarget.classList.add("hover:bg-orange-600", "cursor-pointer")
+      if (this.hasHintTarget) this.hintTarget.classList.add("hidden")
     }
   }
 
