@@ -105,8 +105,8 @@
          data-rating-editing-value="<%= is_editing %>">
       <button data-action="click->rating#open"
               class="w-full py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer
-                     <%= is_editing ? 'bg-orange-500 text-white hover:bg-orange-600' : 'border-2 border-orange-400 text-orange-500 hover:bg-orange-50' %>">
-        <span data-rating-target="buttonText"><%= is_editing ? "Edit My Review" : "I Made This" %></span>
+                     <%= is_editing ? 'border-2 border-green-500 text-green-600 hover:bg-green-50' : 'border-2 border-orange-400 text-orange-500 hover:bg-orange-50' %>">
+        <span data-rating-target="buttonText"><%= is_editing ? "✓ Edit My Review" : "I Made This" %></span>
       </button>
 
       <%# Rating Modal %>

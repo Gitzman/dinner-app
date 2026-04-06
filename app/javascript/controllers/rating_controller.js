@@ -113,7 +113,10 @@ export default class extends Controller {
 
   updateButtonState() {
     if (this.editingValue) {
-      this.buttonTextTarget.textContent = "Edit My Review"
+      this.buttonTextTarget.textContent = "✓ Edit My Review"
+      const button = this.buttonTextTarget.closest("button")
+      button.classList.remove("border-orange-400", "text-orange-500", "hover:bg-orange-50")
+      button.classList.add("border-green-500", "text-green-600", "hover:bg-green-50")
     }
   }
 
