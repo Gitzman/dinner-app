@@ -1,0 +1,68 @@
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-orange-100">
+  <div class="flex items-start justify-between mb-3">
+    <div>
+      <span class="text-xs font-semibold text-orange-500 uppercase tracking-wide">Option <%= index + 1 %></span>
+      <h2 class="text-xl font-bold text-gray-800 mt-0.5"><%= meal[:name] %></h2>
+      <p class="text-gray-600 text-sm mt-1"><%= meal[:description] %></p>
+    </div>
+    <div class="flex items-center gap-3 ml-4">
+      <% if signed_in %>
+        <button data-controller="favorite"
+                data-favorite-meal-id-value="<%= meal_id %>"
+                data-favorite-suggestion-index-value="<%= index %>"
+                data-favorite-favorited-value="<%= favorited %>"
+                data-action="click->favorite#toggle"
+                class="text-red-400 hover:text-red-500 transition cursor-pointer"
+                aria-label="Favorite this meal">
+          <svg data-heart="filled" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
+          <svg data-heart="outline" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
+        </button>
+      <% else %>
+        <%= link_to new_user_registration_path, class: "text-red-400 hover:text-red-500 transition", title: "Sign up to save this recipe" do %>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+          </svg>
+        <% end %>
+      <% end %>
+      <span class="text-sm text-gray-400 whitespace-nowrap">⏱ <%= meal[:estimated_time] %></span>
+    </div>
+  </div>
+
+  <% if meal[:cookware_used]&.any? %>
+    <div class="flex flex-wrap gap-1.5 mb-4">
+      <% meal[:cookware_used].each do |item| %>
+        <span class="bg-orange-50 text-orange-700 text-xs px-2 py-0.5 rounded-full border border-orange-200"><%= item %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <h3 class="text-sm font-semibold text-gray-700 mb-2">Ingredients</h3>
+      <ul class="space-y-1">
+        <% meal[:ingredients].each do |ingredient| %>
+          <li class="text-sm text-gray-600 flex gap-2"><span class="text-orange-400">•</span><%= ingredient %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-semibold text-gray-700 mb-2">Instructions</h3>
+      <ol class="space-y-1 list-decimal list-inside">
+        <% Array(meal[:instructions]).each do |step| %>
+          <li class="text-sm text-gray-600"><%= step %></li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+
+  <% if meal[:kid_contribution].present? %>
+    <div class="mt-4 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3">
+      <p class="text-sm text-yellow-800"><span class="font-semibold">👧 Kids can help:</span> <%= meal[:kid_contribution] %></p>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,33 @@
+<div class="mb-6">
+  <h1 class="text-3xl font-bold text-gray-800">Check Out This Recipe</h1>
+  <p class="text-sm text-gray-500 mt-1">
+    <% if @meal.user_input.present? %>
+      Inspired by: <em><%= @meal.user_input %></em>
+    <% else %>
+      A surprise recipe to try tonight
+    <% end %>
+  </p>
+</div>
+
+<% unless user_signed_in? %>
+  <div class="mb-6 bg-orange-50 border border-orange-200 rounded-2xl px-6 py-4 flex items-center justify-between">
+    <p class="text-sm text-orange-800">
+      <span class="font-semibold">Love this recipe?</span> Sign up to save your favorites and get personalized suggestions.
+    </p>
+    <%= link_to "Sign Up Free", new_user_registration_path, class: "bg-orange-500 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-orange-600 transition whitespace-nowrap ml-4" %>
+  </div>
+<% end %>
+
+<div class="space-y-6">
+  <% @suggestions.each_with_index do |meal, i| %>
+    <%= render "meals/recipe_card", meal: meal, index: i, meal_id: @meal.id, favorited: @favorited_indices.include?(i), signed_in: user_signed_in? %>
+  <% end %>
+</div>
+
+<% unless user_signed_in? %>
+  <div class="mt-8 text-center bg-white rounded-2xl p-8 shadow-sm border border-orange-100">
+    <h3 class="text-xl font-bold text-gray-800 mb-2">Get Your Own Dinner Ideas</h3>
+    <p class="text-gray-600 text-sm mb-4">Tell us what's in your pantry and we'll suggest meals your whole family will love.</p>
+    <%= link_to "Get Started", new_user_registration_path, class: "bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition inline-block" %>
+  </div>
+<% end %>

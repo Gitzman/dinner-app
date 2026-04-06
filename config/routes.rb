@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
   resources :favorites, only: [:index, :destroy]
   get "dashboard", to: "dashboard#show"
+  get "r/:id", to: "shared_meals#show", as: :shared_meal
 
   get "up" => "rails/health#show", as: :rails_health_check
 end
