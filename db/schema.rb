@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_06_034941) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_06_060837) do
   create_table "meal_suggestions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "flow_type"
@@ -32,6 +32,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_034941) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "recipe_interactions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "is_deleted", default: false, null: false
+    t.integer "kid_tip_rating"
+    t.integer "meal_suggestion_id", null: false
+    t.integer "recipe_rating", null: false
+    t.integer "suggestion_index", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["meal_suggestion_id"], name: "index_recipe_interactions_on_meal_suggestion_id"
+    t.index ["user_id", "meal_suggestion_id", "suggestion_index"], name: "idx_recipe_interactions_user_suggestion"
+    t.index ["user_id"], name: "index_recipe_interactions_on_user_id"
   end
 
   create_table "user_favorites", force: :cascade do |t|
@@ -60,6 +74,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_06_034941) do
 
   add_foreign_key "meal_suggestions", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "recipe_interactions", "meal_suggestions"
+  add_foreign_key "recipe_interactions", "users"
   add_foreign_key "user_favorites", "meal_suggestions"
   add_foreign_key "user_favorites", "users"
 end
