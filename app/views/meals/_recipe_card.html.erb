@@ -91,4 +91,54 @@
       <p class="text-sm text-yellow-800"><span class="font-semibold">👧 Kids can help:</span> <%= meal[:kid_contribution] %></p>
     </div>
   <% end %>
+
+  <% if signed_in %>
+    <% user_interaction = local_assigns[:user_interaction] %>
+    <% is_editing = user_interaction.present? %>
+    <div class="mt-4"
+         data-controller="rating"
+         data-rating-meal-id-value="<%= meal_id %>"
+         data-rating-suggestion-index-value="<%= index %>"
+         data-rating-has-kid-contribution-value="<%= meal[:kid_contribution].present? %>"
+         data-rating-existing-recipe-rating-value="<%= is_editing ? user_interaction.recipe_rating : 0 %>"
+         data-rating-existing-kid-tip-rating-value="<%= is_editing ? (user_interaction.kid_tip_rating || 0) : 0 %>"
+         data-rating-editing-value="<%= is_editing %>">
+      <button data-action="click->rating#open"
+              class="w-full py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer
+                     <%= is_editing ? 'bg-orange-500 text-white hover:bg-orange-600' : 'border-2 border-orange-400 text-orange-500 hover:bg-orange-50' %>">
+        <span data-rating-target="buttonText"><%= is_editing ? "Edit My Review" : "I Made This" %></span>
+      </button>
+
+      <%# Rating Modal %>
+      <div data-rating-target="modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div data-rating-target="backdrop"
+             data-action="click->rating#closeBackdrop"
+             class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-200 opacity-0"></div>
+        <div data-panel class="relative bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm mx-4 transition-all duration-200 opacity-0 scale-95">
+          <button data-action="click->rating#close" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <h3 class="text-lg font-bold text-gray-800 mb-1"><%= meal[:name] %></h3>
+
+          <div class="mt-4">
+            <p class="text-sm font-medium text-gray-700 mb-2">How was the meal?</p>
+            <div data-rating-target="recipeStars" class="flex gap-1"></div>
+          </div>
+
+          <div data-rating-target="kidSection" class="mt-4 hidden">
+            <p class="text-sm font-medium text-gray-700 mb-2">Did the kids help? How was the tip?</p>
+            <div data-rating-target="kidStars" class="flex gap-1"></div>
+          </div>
+
+          <button data-action="click->rating#save"
+                  class="mt-6 w-full bg-orange-500 text-white py-2.5 rounded-xl text-sm font-semibold hover:bg-orange-600 transition cursor-pointer">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

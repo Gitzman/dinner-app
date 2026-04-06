@@ -40,6 +40,10 @@ class MealsController < ApplicationController
     @suggestions = @meal.suggestions.map(&:deep_symbolize_keys)
     @favorited_indices = current_user.favorites.where(meal_suggestion: @meal).pluck(:suggestion_index).to_set
     @interaction_stats = interaction_stats_for(@meal)
+    @user_interactions = current_user.recipe_interactions
+      .where(meal_suggestion: @meal, is_deleted: false)
+      .where("created_at > ?", 24.hours.ago)
+      .index_by(&:suggestion_index)
   end
 
   def favorite
