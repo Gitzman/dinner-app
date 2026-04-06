@@ -2,6 +2,3 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
-
-import FavoriteController from "controllers/favorite_controller"
-application.register("favorite", FavoriteController)
