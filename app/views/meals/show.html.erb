@@ -3,7 +3,7 @@
   <meta property="og:title" content="<%= first&.dig(:name) || "Dinner Ideas" %>">
   <meta property="og:description" content="<%= first&.dig(:description) || "Check out these dinner suggestions!" %>">
   <meta property="og:image" content="<%= "#{request.base_url}/icon.png" %>">
-  <meta property="og:url" content="<%= shared_meal_url(@meal, si: 0, ref: current_user.id) %>">
+  <meta property="og:url" content="<%= shared_meal_url(@meal, si: 0) %>">
   <meta property="og:type" content="article">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= first&.dig(:name) || "Dinner Ideas" %>">
